@@ -8,6 +8,8 @@ import telran.b7a.student.dto.StudentDto;
 import telran.b7a.student.dto.UpdateStudentDto;
 import telran.b7a.student.service.StudentService;
 
+import java.util.List;
+
 @RestController
 public class StudentController {
 
@@ -39,4 +41,14 @@ public class StudentController {
     public boolean addScore(@PathVariable Integer id, @RequestBody ScoreDto scoreDto){
         return studentService.addScore(id, scoreDto);
     };
+
+    @GetMapping("/students/name/{name}")
+    public List<StudentDto> findStudentsByName(@PathVariable String name){
+        return studentService.findStudentsByName(name);
+    }
+
+    @GetMapping("students/exam/History/minscore/{score}")
+    public List<StudentDto> findStudentsByMinScore(@PathVariable Integer score){
+        return studentService.findStudentsByMinScore();
+    }
 }
