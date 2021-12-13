@@ -47,8 +47,14 @@ public class StudentController {
         return studentService.findStudentsByName(name);
     }
 
-    @GetMapping("students/exam/History/minscore/{score}")
-    public List<StudentDto> findStudentsByMinScore(@PathVariable Integer score){
+    @GetMapping("students/exam/{exam}/minscore/score")
+    public List<StudentDto> findStudentsByMinScore(@PathVariable String exam){
         return studentService.findStudentsByMinScore();
     }
+
+    @GetMapping("students/quantity/students")
+    public Integer quantity(){
+        return studentService.quantity();
+    }
+
 }

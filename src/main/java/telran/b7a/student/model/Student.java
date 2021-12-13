@@ -1,9 +1,8 @@
 package telran.b7a.student.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +10,10 @@ import java.util.Map;
 @EqualsAndHashCode(of = "id")
 @Getter
 @NoArgsConstructor
+@ToString
+//@Document(collation = "std") // название коллекции || иначе по названию сущности
 public class Student {
+    @Id // установка первичного ключа
     int id;
     @Setter
     String name;
