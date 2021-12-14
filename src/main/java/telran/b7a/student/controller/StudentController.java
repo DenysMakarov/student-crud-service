@@ -9,6 +9,7 @@ import telran.b7a.student.dto.UpdateStudentDto;
 import telran.b7a.student.service.StudentService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class StudentController {
@@ -47,14 +48,19 @@ public class StudentController {
         return studentService.findStudentsByName(name);
     }
 
-    @GetMapping("students/exam/{exam}/minscore/score")
-    public List<StudentDto> findStudentsByMinScore(@PathVariable String exam){
-        return studentService.findStudentsByMinScore();
+//    @GetMapping("students/exam/{exam}/minscore/score")
+//    public List<StudentDto> findStudentsByMinScore(@PathVariable String exam){
+//        return studentService.findStudentsByMinScore();
+//    }
+
+    @GetMapping("students/exam/{exam}/minscore/{score}")
+    public List<StudentDto> studentsByExamScore(@PathVariable String exam, @PathVariable int score){
+        return studentService.getStudentsByExamScore(exam, score);
     }
 
-    @GetMapping("students/quantity/students")
-    public Integer quantity(){
-        return studentService.quantity();
+    @PostMapping ("quantity/students")
+    public long studentsNamesQuantity(@RequestBody List<String> names){
+        return studentService.getStudentsNamesQuantity(names);
     }
 
 }

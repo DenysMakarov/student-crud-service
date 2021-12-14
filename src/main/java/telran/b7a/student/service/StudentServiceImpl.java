@@ -7,9 +7,7 @@ import telran.b7a.student.dao.StudentsMongoRepository;
 import telran.b7a.student.dto.*;
 import telran.b7a.student.model.Student;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,31 +70,50 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentDto> findStudentsByName(String name) {
-        return studentRepository.findAll().stream()
-                .filter(e -> e.getName().equalsIgnoreCase(name))
+        return studentRepository.findByNameIgnoreCase(name)
+//                .filter(e -> e.getName().equalsIgnoreCase(name))
                 .map(s -> modelMapper.map(s, StudentDto.class))
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<StudentDto> findStudentsByMinScore() {
-        int min = studentRepository.findAll().stream()
-                .flatMap(e -> e.getScores().values().stream())
-                .mapToInt(Integer::intValue)
-                .min().orElse(0);
+//    @Override
+//    public List<StudentDto> findStudentsByMinScore() {
+//        int min = studentRepository.findAll().stream()
+//                .flatMap(e -> e.getScores().values().stream())
+//                .mapToInt(Integer::intValue)
+//                .min().orElse(0);
+//
+//        return studentRepository.findAll().stream()
+//                .filter(e -> e.getScores().containsValue(min))
+//                .map(s -> modelMapper.map(s, StudentDto.class))
+//                .collect(Collectors.toList());
+//    }
 
-       return studentRepository.findAll().stream()
-                .filter(e -> e.getScores().containsValue(min))
+    @Override
+    public long getStudentsNamesQuantity(List<String> names) {
+        return studentRepository.countByNameInIgnoreCase(names);
+    }
+
+    @Override
+    public List<StudentDto> getStudentsByExamScore(String exam, int score) {
+        return studentRepository.findByExamAndScoreGreaterEqualsThan(exam, score)
                 .map(s -> modelMapper.map(s, StudentDto.class))
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public Integer quantity() {
-//        int a = studentRepository.findAll().size();
-//        System.out.println(a);
-//        return a;
-        return null;
-    }
+
+//    @Override
+//    public Map<String, Integer> quantity(List<String> names) {
+//        Map<String, Long> std= studentRepository.findAll().stream()
+//                .collect(Collectors.groupingBy(e -> e.getName().toLowerCase(), Collectors.counting()));
+//        System.out.println(std);
+//
+//        return null;
+//    }
+
+//    @Override
+//    public Map<String, Integer> quantityMap(List<String> names) {
+//        return null;
+//    }
 
 }
